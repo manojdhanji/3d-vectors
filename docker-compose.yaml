@@ -1,0 +1,7 @@
+name: "3D Vectors App"
+services:
+  electron-configuration:
+    build: .
+    container_name: 3d-vectors-app
+    ports:
+      - "8088:80"
