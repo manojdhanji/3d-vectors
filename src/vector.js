@@ -6,6 +6,43 @@ let resultantArrow = null;
 let angleArcs = [];   // store arcs so we can remove them later
 const constructionLines = [];
 
+function drawThickArrow(start, end, color = 0xffffff) {
+    const vec = end.clone().sub(start);
+    const length = vec.length();
+    const dir = vec.clone().normalize();
+
+    const shaftRadius = 0.05;      // thickness of the arrow shaft
+    const headRadius = 0.12;      // thickness of the arrowhead
+    const headLength = 0.25;      // length of the arrowhead
+
+    // Shaft
+    const shaftGeom = new THREE.CylinderGeometry(shaftRadius, shaftRadius, length - headLength, 12);
+    const shaftMat = new THREE.MeshBasicMaterial({ color });
+    const shaft = new THREE.Mesh(shaftGeom, shaftMat);
+
+    // Arrowhead
+    const headGeom = new THREE.ConeGeometry(headRadius, headLength, 12);
+    const headMat = new THREE.MeshBasicMaterial({ color });
+    const head = new THREE.Mesh(headGeom, headMat);
+
+    // Positioning
+    shaft.position.copy(start).addScaledVector(dir, (length - headLength) / 2);
+    head.position.copy(start).addScaledVector(dir, length - headLength / 2);
+
+    // Orientation
+    const axis = new THREE.Vector3(0, 1, 0);
+    const quaternion = new THREE.Quaternion().setFromUnitVectors(axis, dir);
+    shaft.quaternion.copy(quaternion);
+    head.quaternion.copy(quaternion);
+
+    scene.add(shaft);
+    scene.add(head);
+
+    constructionLines.push(shaft, head);
+
+    return { shaft, head };
+}
+
 
 function clearConstructionLines() {
     for (const obj of constructionLines) {
@@ -40,7 +77,6 @@ export function constructResultant() {
         // Move head forward
         currentHead.add(vec);
     }
-
     // Now compute + draw resultant + arcs + UI
     computeResultant();
 }
@@ -103,7 +139,12 @@ export function clearVectors() {
     );
 
     // Remove resultant arrow reference
-    resultantArrow = null;
+    if (resultantArrow) {
+        scene.remove(resultantArrow.shaft);
+        scene.remove(resultantArrow.head);
+        resultantArrow = null;
+    }
+
 
     // Remove arcs
     angleArcs.forEach(arc => scene.remove(arc));
@@ -160,8 +201,9 @@ export function computeResultant() {
 
     // Draw resultant arrow (white)
     const origin = new THREE.Vector3(0, 0, 0);
-    const dir = unit;
-    resultantArrow = new THREE.ArrowHelper(dir, origin, magnitude, new THREE.Color(1, 1, 1));
+    const end = origin.clone().add(res);
+    resultantArrow = drawThickArrow(origin, end, 0xffffff);;   // store both parts
+
     scene.add(resultantArrow);
 
     // Draw arcs for angles

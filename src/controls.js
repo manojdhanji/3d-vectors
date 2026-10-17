@@ -26,7 +26,6 @@ export function initControls() {
     };
 
     document.getElementById('construct-resultant').onclick = () => {
-        //alert('Head-to-tail animation coming soon');
         constructResultant();
     };
 
