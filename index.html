@@ -1,11 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>3D Vectors</title>
 </head>
+
 <body>
-  <div id="scene"></div>
+  <div id="layout">
+    <div id="controls">
+      <h2>3D Vector Visualizer</h2>
+      <fieldset id="vector-fieldset">
+        <legend>Vector Input</legend>
+
+        <div id="vector-input">
+          <label>
+            i:
+            <input type="number" id="input-i" value="0">
+          </label>
+          <label>
+            j:
+            <input type="number" id="input-j" value="0">
+          </label>
+          <label>
+            k:
+            <input type="number" id="input-k" value="0">
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="row">
+        <button id="draw-vector">Draw</button>
+        <button id="clear-vectors">Clear</button>
+      </div>
+      <button id="compute-resultant">Resultant</button>
+      <button id="construct-resultant">Head-2-Tail Construction</button>
+      <div id="result-details" class="result-box hidden">
+        <h3>Resultant</h3>
+        <p><strong>Components:</strong> <span id="res-components">-</span></p>
+        <p><strong>Magnitude:</strong> <span id="res-magnitude">-</span></p>
+        <p><strong>Angles (°):</strong></p>
+        <ul>
+          <li>x-axis: <span id="res-angle-x">-</span></li>
+          <li>y-axis: <span id="res-angle-y">-</span></li>
+          <li>z-axis: <span id="res-angle-z">-</span></li>
+        </ul>
+      </div>
+      <!-- Collapsible Details Section -->
+      <div class="details">
+        <div class="details-header" id="details-toggle">
+          <span>Details</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="details-content" id="details-content">
+          <p><strong>3D Vector Visualizer</strong></p>
+          <p>This web app allows you to:</p>
+          <ul>
+            <li>Add multiple 3D vectors</li>
+            <li>Visualize them in a 3D coordinate system</li>
+            <li>Compute the resultant vector</li>
+            <li>Construct the head-to-tail addition visually</li>
+          </ul>
+          <p>Use the input panel to enter vector components (i, j, k).
+            The 3D scene updates instantly as you draw vectors.</p>
+        </div>
+      </div>
+    </div>
+    <div id="scene"></div>
+  </div>
   <script type="module" src="/src/main.js"></script>
 </body>
+
 </html>
