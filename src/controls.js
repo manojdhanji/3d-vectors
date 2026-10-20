@@ -1,6 +1,15 @@
+import { camera, renderer } from './scene.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { drawVector, addVector, clearVectors, computeResultant, constructResultant } from './vector.js';
 
 export function initControls() {
+
+    // 1. OrbitControls setup (must be first)
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0, 0);
+    controls.update();
+
+    // 2. UI wiring
     const iInput = document.getElementById('input-i');
     const jInput = document.getElementById('input-j');
     const kInput = document.getElementById('input-k');

@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const container = document.getElementById('scene');
 
@@ -17,8 +16,6 @@ export const camera = new THREE.PerspectiveCamera(
     1000
 );
 camera.position.set(5, 5, 10);
-
-export const controls = new OrbitControls(camera, renderer.domElement);
 
 scene.add(new THREE.AxesHelper(2));
 scene.add(new THREE.GridHelper(20, 20));
