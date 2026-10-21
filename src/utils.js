@@ -4,7 +4,7 @@ export const getRandomCount = (min = 10, max = 15) => Math.floor(Math.random() *
 export function formatSignedFixed(n, width = 7) {
     const sign = n >= 0 ? '+' : '-';
     const abs = Math.abs(n).toFixed(2);   // always 2 decimals
-    const str = sign + abs;               // e.g., "+4.50", "-12.50"
+    const str = sign + abs;               // e.g., "+04.50", "-12.50"
     return str.padStart(width, ' ');      // pad to fixed width
 }
 export function formatIndex(n) {
