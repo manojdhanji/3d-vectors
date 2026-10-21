@@ -1,12 +1,13 @@
-import { camera, renderer } from './scene.js';
+import { camera, renderer, INITIAL_CAMERA_POS, INITIAL_CAMERA_TARGET } from './scene.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { drawVector, addVector, clearVectors, computeResultant, constructResultant } from './vector.js';
+import { randomComponent, getRandomCount } from './utils.js';
 
 export function initControls() {
 
     // 1. OrbitControls setup (must be first)
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.target.set(0, 0, 0);
+    controls.target.copy(INITIAL_CAMERA_TARGET);
     controls.update();
 
     // 2. UI wiring
@@ -21,13 +22,6 @@ export function initControls() {
 
         addVector(i, j, k);
         drawVector(i, j, k);
-    };
-
-    document.getElementById('clear-vectors').onclick = () => {
-        clearVectors();
-        iInput.value = 0;
-        jInput.value = 0;
-        kInput.value = 0;
     };
 
     document.getElementById('compute-resultant').onclick = () => {
@@ -47,4 +41,54 @@ export function initControls() {
         const isOpen = detailsContent.classList.toggle('open');
         arrow.style.transform = isOpen ? 'rotate(90deg)' : 'rotate(0deg)';
     };
+
+    const vectorListToggle = document.getElementById('vector-list-toggle');
+    const vectorListContent = document.getElementById('vector-list');
+    const vectorArrow = vectorListToggle.querySelector('.arrow');
+
+    vectorListToggle.onclick = () => {
+        const isOpen = vectorListContent.classList.toggle('open');
+        vectorArrow.style.transform = isOpen ? 'rotate(90deg)' : 'rotate(0deg)';
+    };
+
+    document.getElementById('random-vectors').onclick = () => {
+        const count = getRandomCount(15, 20); // random number between 15 and 20
+
+        for (let n = 0; n < count; n++) {
+            const i = randomComponent(-10, 10);
+            const j = randomComponent(-10, 10);
+            const k = randomComponent(-10, 10);
+
+            addVector(i, j, k);
+            drawVector(i, j, k);
+        }
+    };
+
+    document.getElementById('reset-all').onclick = () => {
+        clearVectors();
+        iInput.value = 0;
+        jInput.value = 0;
+        kInput.value = 0;
+        resetView(controls);
+    };
+}
+
+function resetView(controls) {
+    // Reset camera position
+    camera.position.copy(INITIAL_CAMERA_POS);
+
+    // Reset camera orientation
+    camera.lookAt(INITIAL_CAMERA_TARGET);
+
+    // Reset OrbitControls target
+    controls.target.copy(INITIAL_CAMERA_TARGET);
+
+    // Reset zoom
+    camera.zoom = 1;
+    camera.updateProjectionMatrix();
+
+    controls.setPolarAngle(Math.PI / 4);     // 45° tilt
+    controls.setAzimuthAngle(Math.PI / 4);   // 45° rotation
+
+    controls.update();
 }

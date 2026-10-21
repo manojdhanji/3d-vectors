@@ -28,10 +28,12 @@
           </label>
         </div>
       </fieldset>
-
+      <div class="row">
+        <button id="random-vectors">Random Vectors</button>
+      </div>
       <div class="row">
         <button id="draw-vector">Draw</button>
-        <button id="clear-vectors">Clear</button>
+        <button id="reset-all">Reset</button>
       </div>
       <button id="compute-resultant">Resultant</button>
       <button id="construct-resultant">Head-2-Tail Construction</button>
@@ -48,6 +50,13 @@
       </div>
       <!-- Collapsible Details Section -->
       <div class="details">
+        <div id="vector-list-toggle" class="vector-list-toggle">
+          <span>Vectors</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div id="vector-list" class="vector-list-content">
+          <!-- dynamically filled -->
+        </div>
         <div class="details-header" id="details-toggle">
           <span>Details</span>
           <span class="arrow">▶</span>

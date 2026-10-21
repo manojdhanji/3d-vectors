@@ -16,6 +16,11 @@ export const camera = new THREE.PerspectiveCamera(
     1000
 );
 camera.position.set(5, 5, 10);
+camera.lookAt(0, 0, 0);
+
+// Save initial camera state
+export const INITIAL_CAMERA_POS = camera.position.clone();
+export const INITIAL_CAMERA_TARGET = new THREE.Vector3(0, 0, 0);
 
 scene.add(new THREE.AxesHelper(2));
 scene.add(new THREE.GridHelper(20, 20));

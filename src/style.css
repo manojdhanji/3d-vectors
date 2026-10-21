@@ -139,6 +139,37 @@ body {
   padding-left: 20px;
 }
 
+.vector-list-toggle {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #ddd;
+}
+
+.vector-list-toggle:hover {
+  color: #fff;
+}
+
+.vector-list-toggle .arrow {
+  transition: transform 0.2s ease;
+}
+
+.vector-list-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-out;
+  color: #ccc;
+  font-family: "Courier New", monospace;
+  white-space: pre; /* preserves spacing */
+}
+
+.vector-list-content.open {
+  max-height: 500px; /* enough for content */
+  transition: max-height 0.3s ease-in;
+}
+
 .result-box {
   margin-top: 20px;
   padding: 10px;

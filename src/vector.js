@@ -1,10 +1,28 @@
 import { scene } from './scene.js';
 import * as THREE from 'three';
+import { formatSignedFixed, formatIndex } from './utils.js';
 
 let vectors = [];
 let resultantArrow = null;
 let angleArcs = [];   // store arcs so we can remove them later
 const constructionLines = [];
+
+function updateVectorList() {
+    const listDiv = document.getElementById('vector-list');
+    listDiv.innerHTML = '';
+
+    vectors.forEach((v, index) => {
+        const line =
+            `${formatIndex(index + 1)}.  ` +
+            `{i: ${formatSignedFixed(v.i)}, ` +
+            `j: ${formatSignedFixed(v.j)}, ` +
+            `k: ${formatSignedFixed(v.k)}}`;
+
+        const item = document.createElement('div');
+        item.textContent = line;
+        listDiv.appendChild(item);
+    });
+}
 
 function drawThickArrow(start, end, color = 0xffffff) {
     const vec = end.clone().sub(start);
@@ -42,7 +60,6 @@ function drawThickArrow(start, end, color = 0xffffff) {
 
     return { shaft, head };
 }
-
 
 function clearConstructionLines() {
     for (const obj of constructionLines) {
@@ -118,6 +135,7 @@ function vectorColor(i, j, k) {
 
 export function addVector(i, j, k) {
     vectors.push({ i, j, k });
+    updateVectorList();
 }
 
 export function drawVector(i, j, k) {
@@ -159,6 +177,9 @@ export function clearVectors() {
     document.getElementById('res-angle-y').textContent = '-';
     document.getElementById('res-angle-z').textContent = '-';
     document.getElementById('result-details').classList.add('hidden');
+    document.getElementById('vector-list').innerHTML = '';
+
+    updateVectorList();
 }
 
 export function computeResultant() {
